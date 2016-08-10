@@ -26,8 +26,8 @@ ENV PORT_EMS=3001
 COPY      ./vidac/ /var/vidac
 WORKDIR   /var/vidac
 
-RUN       make deps -f src/app/vis/Makefile && make deps -f src/app/ems/Makefile
+RUN       sh -c 'cd src/app/vis && make deps && cd ../ems && make deps'
 
 EXPOSE $PORT_VIS $PORT_EMS
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["node", "src/app/vis/bin/vis.bin.js", "server", "--config", "src/app/vis/conf/config_bbi_vis.json"]
