@@ -1,16 +1,18 @@
 version: '2'
 
 services:
-  node:
+  vis:
     build:
       context: .
       dockerfile: node.vidac.dockerfile
+    volumes:
+      - './vidac:/var/vidac'
+    ports:
+      - '3000:3000'
+      - '3001:3001'
     depends_on:
       - mongodb
       - rabbitmq
-    ports:
-      - "3000:3000"
-      - "3001:3001"
     links:
       - mongodb
       - rabbitmq
@@ -19,12 +21,24 @@ services:
 
   mongodb:
     image: mongo:3.3.10
+    volumes:
+      - './mongodb:/data/db'
 
   rabbitmq:
     image: rabbitmq:3.6.5
+    volumes:
+      - './rabbitmq:/var/lib/rabbitmq'
 
   elasticsearch:
     image: elasticsearch:5.0.0-alpha5
+    volumes:
+      - './elasticsearch:/usr/share/elasticsearch/data'
+    environment:
+      - ES_JAVA_OPTS="-Xms1g -Xmx1g"
+      - bootstrap.ignore_system_bootstrap_checks=true
+      - bootstrap.seccomp=false
+      - http.cors.enabled=true
+      - http.cors.allow.origin=1
 
   kibana:
     image: kibana:5.0.0-alpha4
