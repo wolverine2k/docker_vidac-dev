@@ -15,7 +15,8 @@
 # Run: docker exec vis node src/app/vis/vis_
 # Run: docker exec ems node src/app/ems/ems_
 
-FROM node:6.3.1
+#FROM node:6.3.1
+FROM node:4.4.7
 
 MAINTAINER Naresh Mehta
 
@@ -26,8 +27,11 @@ ENV PORT_EMS=3001
 COPY      ./vidac/ /var/vidac
 WORKDIR   /var/vidac
 
-RUN       sh -c 'cd src/app/vis && make deps && cd ../ems && make deps'
+RUN       sh -c 'cd /var/vidac/src/app/vis && make deps && cd ../ems && make deps'
 
-EXPOSE $PORT_VIS $PORT_EMS
+EXPOSE $PORT_VIS $PORT_EMS 27017 27018 4370 5672 5673 25673
 
-ENTRYPOINT ["node", "src/app/vis/bin/vis.bin.js", "server", "--config", "src/app/vis/conf/config_bbi_vis.json"]
+# ENTRYPOINT ["node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
+#CMD ["/usr/local/bin/node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
+ENTRYPOINT ["/bin/bash", "/var/vidac/vis.sh"]
+#ENTRYPOINT ["/bin/sleep", "100000"]

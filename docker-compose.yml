@@ -8,34 +8,23 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
-      - elasticsearch
-      - kibana
     ports:
       - "3000:3000"
       - "3001:3001"
-    networks:
-      - vidac-network
+    links:
+      - mongodb
+      - rabbitmq
+      - elasticsearch
+      - kibana
 
   mongodb:
     image: mongo:3.3.10
-    networks:
-      - vidac-network
 
   rabbitmq:
     image: rabbitmq:3.6.5
-    networks:
-      - vidac-network
 
   elasticsearch:
     image: elasticsearch:5.0.0-alpha5
-    networks:
-      - vidac-network
 
   kibana:
     image: kibana:5.0.0-alpha4
-    networks:
-      - vidac-network
-
-networks:
-  vidac-network:
-    driver: bridge
