@@ -20,6 +20,10 @@ FROM node:5.12.0
 
 MAINTAINER Naresh Mehta
 
+# Install build-essentials
+USER root
+RUN apt-get update && apt-get install -y build-essential
+
 ENV NODE_ENV=development 
 ENV PORT_VIS=3000
 ENV PORT_EMS=3001
@@ -33,4 +37,5 @@ EXPOSE $PORT_VIS $PORT_EMS 27017 27018 4370 5672 5673 25673
 
 # ENTRYPOINT ["node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
 #CMD ["/usr/local/bin/node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
-ENTRYPOINT [ "/bin/bash", "/var/vidac/vis.sh" ]
+# ENTRYPOINT [ "/bin/bash", "/var/vidac/vis.sh" ]
+CMD [ "/bin/bash" ]
