@@ -2,9 +2,10 @@ version: '2'
 
 services:
   vis:
+    image: wolverine2k/docker_vidac-dev
     build:
       context: .
-      dockerfile: node.vidac.dockerfile
+      dockerfile: Dockerfile
     volumes:
       - './vidac:/var/vidac'
     ports:

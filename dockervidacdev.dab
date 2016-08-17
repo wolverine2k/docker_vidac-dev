@@ -1,0 +1,52 @@
+{
+  "Services": {
+    "elasticsearch": {
+      "Env": [
+        "http.cors.allow.origin=1", 
+        "bootstrap.ignore_system_bootstrap_checks=true", 
+        "ES_JAVA_OPTS=\"-Xms1g -Xmx1g\"", 
+        "http.cors.enabled=true", 
+        "bootstrap.seccomp=false"
+      ], 
+      "Image": "elasticsearch@sha256:5b162faaab22c5a100d1e46da87852a866a224204d0ad17e52183d5976d49f00", 
+      "Networks": [
+        "default"
+      ]
+    }, 
+    "kibana": {
+      "Image": "kibana@sha256:a7c9ff1187537b6d49a96f8f72a4f1fd194629b3bfa33a75b0493bd001171f25", 
+      "Networks": [
+        "default"
+      ]
+    }, 
+    "mongodb": {
+      "Image": "mongo@sha256:88142ea8e2f128063ca7f06937d79e647b4d39763b8ef90c3dcde516ac017c59", 
+      "Networks": [
+        "default"
+      ]
+    }, 
+    "rabbitmq": {
+      "Image": "rabbitmq@sha256:9acaf2ed53c147f1dbf767425fa153953c8cf7536153d3967aa75df7874a4d85", 
+      "Networks": [
+        "default"
+      ]
+    }, 
+    "vis": {
+      "Image": "armdocker.rnd.ericsson.se/proj_btmoduleci/node_vidac@sha256:090922b3cc1adc536f8cf936045e5e2da97758b75b66ca6517568a8fa6c1a62c", 
+      "Networks": [
+        "default"
+      ], 
+      "Ports": [
+        {
+          "Port": 3000, 
+          "Protocol": "tcp"
+        }, 
+        {
+          "Port": 3001, 
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  }, 
+  "Version": "0.1"
+}
