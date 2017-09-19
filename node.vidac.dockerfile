@@ -28,8 +28,14 @@ ENV NODE_ENV=development
 ENV PORT_VIS=3000
 ENV PORT_EMS=3001
 
+#COPY      ./vidac/ /var/vidac
 WORKDIR   /var/vidac
+
+#RUN       sh -c 'cd /var/vidac/src/app/vis && make deps && cd ../ems && make deps'
 
 EXPOSE $PORT_VIS $PORT_EMS 27017 27018 4370 5672 5673 25673
 
+# ENTRYPOINT ["node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
+#CMD ["/usr/local/bin/node", "/var/vidac/src/app/vis/bin/vis.bin.js", "server", "--config", "/var/vidac/src/app/vis/conf/config_bbi_vis.json"]
+# ENTRYPOINT [ "/bin/bash", "/var/vidac/vis.sh" ]
 CMD [ "/bin/bash" ]
