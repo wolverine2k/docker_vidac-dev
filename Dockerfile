@@ -1,4 +1,7 @@
+# Derived image is from Debian:Jessie
 FROM debian:jessie
+
+# code available on https://github.com/wolverine2k/docker_vidac-dev
 MAINTAINER Naresh Mehta <naresh.mehta@gmail.com>
 
 # Update system and make sure we have wget
@@ -22,9 +25,9 @@ EXPOSE 4369 5671 5672 25672 15672
 # Import MongoDB public GPG key AND create a MongoDB list file
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
 RUN echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
 # Update apt-get sources AND install MongoDB
 RUN apt-get update && apt-get install -y mongodb-org
-RUN service mongod start
 
 # Create the MongoDB data directory
 RUN mkdir -p /data/db
@@ -39,4 +42,18 @@ RUN wget -qO https://github.com/nodesource/distributions/blob/master/deb/setup_6
 RUN apt-get install -y nodejs npm
 RUN npm install -g n && n stable
 RUN rm /usr/bin/nodejs && ln -s /usr/local/bin/node /usr/bin/nodejs
-ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]
+
+# Now initialize our user instead of doing things on root access
+# Not a good idea for the time being
+#RUN useradd -ms /bin/bash vidac-dev
+#USER vidac-dev
+#WORKDIR /home/vidac-dev
+
+# We expose a mountpoint for code to be loaded on the local machine
+VOLUME /repo
+
+# CMD services that are needed
+CMD service mongod start
+CMD service rabbitmq-server start
+
